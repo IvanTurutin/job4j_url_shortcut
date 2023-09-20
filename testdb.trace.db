@@ -1,0 +1,26 @@
+2023-09-20 12:05:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42104-214]
+2023-09-20 12:05:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONS" не найдена
+Table "PERSONS" not found; SQL statement:
+insert into persons (login, password) values ('job4j.ru', '123');
+insert into persons (login, password) values ('mail.ru', '456'); [42102-214]
+2023-09-20 12:07:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "SITS" не найдена
+Table "SITS" not found; SQL statement:
+insert into sits (login, password) values ('mail.ru', '456'); [42102-214]
+2023-09-20 12:07:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE IF NOT EXISTS urls\000a(\000a    id serial primary key not null,\000a    url varchar(2000) NOT NULL unique,\000a    [*]key varchar(2000) NOT NULL unique\000a);\000a\000acomment on table urls is 'Соответствие ключ-URL';\000acomment on column urls.id is 'Идентификатор ключ-URL';\000acomment on column urls.url is 'URL';\000acomment on column urls.key is 'Ключ';"; ожидалось "identifier"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS urls\000a(\000a    id serial primary key not null,\000a    url varchar(2000) NOT NULL unique,\000a    [*]key varchar(2000) NOT NULL unique\000a);\000a\000acomment on table urls is 'Соответствие ключ-URL';\000acomment on column urls.id is 'Идентификатор ключ-URL';\000acomment on column urls.url is 'URL';\000acomment on column urls.key is 'Ключ';"; expected "identifier"; SQL statement:
+CREATE TABLE IF NOT EXISTS urls
+(
+    id serial primary key not null,
+    url varchar(2000) NOT NULL unique,
+    key varchar(2000) NOT NULL unique
+);
+
+comment on table urls is 'Соответствие ключ-URL';
+comment on column urls.id is 'Идентификатор ключ-URL';
+comment on column urls.url is 'URL';
+comment on column urls.key is 'Ключ'; [42001-214]
