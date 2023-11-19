@@ -24,6 +24,7 @@ public class Url {
     private String url;
 
     /*@NotBlank(message = "Login must be not empty")*/
+    @Column(name = "urlkey")
     private String urlKey;
 
     /*@Length(min = 6, message = "Password must be more than 5 symbols")*/
@@ -31,10 +32,9 @@ public class Url {
 
     /*@Min(value = 1, message = "Count must be not null", groups = {
             Operation.OnUpdate.class})
-     */
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id")
     private Site site;
-
-
+    */
 }

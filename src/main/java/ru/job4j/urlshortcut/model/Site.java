@@ -5,15 +5,15 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.Length;
-//import ru.job4j.auth.validation.Operation;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Модель данных Сайт
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +22,10 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "sites")
 public class Site {
+
+    /**
+     * Идентификатор сайта
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -30,18 +34,31 @@ public class Site {
      */
     private int id;
 
-    /*@NotBlank(message = "Name must be not empty")*/
+    /**
+     * Название сайта
+     */
+    @NotBlank(message = "Name must be not empty")
     private String name;
 
+    /**
+     * Логин сайта
+     */
     /*@NotBlank(message = "Login must be not empty")*/
     private String login;
 
+    /**
+     * Пароль сайта
+     */
     /*@Length(min = 6, message = "Password must be more than 5 symbols")*/
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    /**
+     * Список ссылок, принадлежащих сайту
+     */
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Fetch(FetchMode.SUBSELECT)
+    @JoinColumn(name = "site_id")
     private List<Url> urls = new ArrayList<>();
 
 
