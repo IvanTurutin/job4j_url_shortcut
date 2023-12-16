@@ -9,6 +9,7 @@ import ru.job4j.urlshortcut.dto.SiteDto;
 import ru.job4j.urlshortcut.model.Site;
 import ru.job4j.urlshortcut.repository.SiteRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,10 +27,17 @@ public class SiteService {
     }
 
     public Optional<Site> findById(int id) {
-        return siteRepository.findById(id);
+        log.debug("findById() id = " + id);
+        Optional<Site> siteOptional = siteRepository.findById(id);
+        log.debug("findById() findById(id) = " + siteOptional.orElse(new Site(0, "not avalable", "", "", new ArrayList<>())));
+        return siteOptional;
     }
 
     public Optional<Site> save(SiteDto siteDto) {
+        if (siteRepository.findByName(siteDto.site()).isPresent()) {
+            return Optional.empty();
+        }
+
         Site site = new Site();
         site.setName(siteDto.site());
         site.setLogin(loginGenerator(PASSWORD_LENGTH));

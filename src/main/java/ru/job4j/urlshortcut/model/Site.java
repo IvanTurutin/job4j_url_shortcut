@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class Site {
     /**
      * Название сайта
      */
-    @NotBlank(message = "Name must be not empty")
+    /*@NotBlank(message = "Name must be not empty")*/
     private String name;
 
     /**
@@ -60,6 +59,4 @@ public class Site {
     @Fetch(FetchMode.SUBSELECT)
     @JoinColumn(name = "site_id")
     private List<Url> urls = new ArrayList<>();
-
-
 }

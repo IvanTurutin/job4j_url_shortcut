@@ -11,4 +11,5 @@ public interface SiteRepository extends CrudRepository<Site, Integer> {
     List<Site> findAll();
     Optional<Site> findByLogin(String login);
     //Optional<Site> save(Site site);
+    Optional<Site> findByName(String name);
 }

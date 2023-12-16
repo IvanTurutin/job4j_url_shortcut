@@ -32,6 +32,8 @@ public class SiteController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Site>> findAll() {
+        log.debug("findAll() is started");
+
         List<Site> siteList = sites.findAll();
         return new ResponseEntity<>(
                 siteList,
@@ -41,8 +43,14 @@ public class SiteController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Site> findById(@PathVariable int id) {
-        return ResponseEntity.of(sites.findById(id));
+    public ResponseEntity<Optional<Site>> findById(@PathVariable int id) {
+        //return ResponseEntity.of(sites.findById(id));
+        Optional<Site> siteOptional = sites.findById(id);
+        return new ResponseEntity<>(
+                siteOptional,
+                siteOptional.isEmpty() ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK
+        );
+
     }
 
     @PostMapping(value = "/registration", consumes = {"application/json"})
@@ -87,6 +95,7 @@ public class SiteController {
         site.setId(id);
         return this.sites.delete(site) ? ResponseEntity.ok().build() : ResponseEntity.internalServerError().build();
     }
+
 
     @ExceptionHandler(value = { IllegalArgumentException.class })
     public void exceptionHandler(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
