@@ -108,6 +108,10 @@ public class UrlService {
         return urlKey.toString();
     }
 
+    public Optional<Url> findByKey(String key) {
+        return urlRepository.findByUrlKey(key);
+    }
+
 
 /*
         url.setUrlKey(loginGenerator(CODE_LENGTH));

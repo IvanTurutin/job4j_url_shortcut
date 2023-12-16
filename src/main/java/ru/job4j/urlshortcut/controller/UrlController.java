@@ -5,17 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.urlshortcut.dto.UrlDto;
+import ru.job4j.urlshortcut.model.Url;
 import ru.job4j.urlshortcut.service.UrlService;
 import ru.job4j.urlshortcut.validation.Operation;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -44,4 +45,16 @@ public class UrlController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping("/redirect/{key}")
+    public ResponseEntity<Void> redirect(@PathVariable String key) {
+        Optional<Url> urlOptional = urls.findByKey(key);
+        return urlOptional.isPresent()
+                ? new ResponseEntity<>(
+                new MultiValueMapAdapter<>(Map.of("REDIRECT", List.of(urlOptional.get().getUrl()))),
+                HttpStatus.FOUND)
+                : new ResponseEntity<>(
+                HttpStatus.NOT_FOUND);
+    }
+
 }

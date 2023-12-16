@@ -1,6 +1,7 @@
 package ru.job4j.urlshortcut.web;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,20 +17,23 @@ import ru.job4j.urlshortcut.filter.JWTAuthenticationFilter;
 import ru.job4j.urlshortcut.filter.JWTAuthorizationFilter;
 import ru.job4j.urlshortcut.service.UserDetailsServiceImpl;
 
+import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.REDIRECT_URL;
 import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 
 
 @EnableWebSecurity
 @AllArgsConstructor
+@Slf4j
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("protected void configure(HttpSecurity http) начало");
+        log.debug("protected void configure(HttpSecurity http) начало");
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.GET, REDIRECT_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
